@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import AXIOS from "../request/request";
 export default {
   name: "login",
   data() {
@@ -68,15 +69,19 @@ export default {
     onLogin(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert(
-            "用户名:" +
-              this.loginForm.username +
-              "密码:" +
-              this.loginForm.password
-          );
+          this.onLoginSubmit(this.loginForm.username, this.loginForm.password);
         } else {
           return false;
         }
+      });
+    },
+
+    onLoginSubmit(username, password) {
+      AXIOS.post("/login", {
+        username: username,
+        password: password,
+      }).then((response) => {
+        console.log(response);
       });
     },
   },

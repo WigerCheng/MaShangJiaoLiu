@@ -1,21 +1,21 @@
 <template>
-  <header class="main-header">
-    <el-row type="flex" align="middle" gutter="10">
+  <header class="main_header_container">
+    <el-row type="flex" align="middle">
       <el-col :span="1">
         <router-link to="">
-          <img class="logo" src="..\assets\logo.png" alt="" />
+          <div class="logo" />
         </router-link>
       </el-col>
 
       <el-col :span="20">
-        <el-menu
+        <!-- <el-menu
           :default-active="activeIndex"
           mode="horizontal"
           @select="handleSelect"
         >
           <el-menu-item index="1">首页</el-menu-item>
           <el-menu-item index="2">发现</el-menu-item>
-        </el-menu>
+        </el-menu> -->
       </el-col>
 
       <el-col :span="3">
@@ -52,8 +52,15 @@ export default {
 </script>
 
 <style>
+.main_header_container {
+  height: 50px;
+}
 .logo {
   width: 50px;
   height: 50px;
+  background: url("../assets/logo.png") no-repeat;
+  background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  background-size: 100% 100%;
 }
 </style>
