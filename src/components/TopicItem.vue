@@ -1,7 +1,7 @@
 <template>
   <div class="topic_item_container">
     <p class="topic_title">{{ item.title }}</p>
-    <span>{{ item.creator.username }} • {{ item.updatedAt }}</span>
+    <span>{{ item.author }} • {{ item.publishTime }}</span>
   </div>
 </template>
 
@@ -12,9 +12,6 @@ export default {
     return {
       item: this.topicItem,
     };
-  },
-  created() {
-    console.log(this.item);
   },
 };
 </script>

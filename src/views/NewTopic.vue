@@ -42,7 +42,20 @@
                   @input="updateContentCount"
                 ></el-input>
               </el-form-item>
-              <div class="new_topic_button_box">
+              <div class="new_topic_send_box">
+                <el-form-item prop="tagId">
+                  <el-select
+                    v-model="newTopicForm.tagId"
+                    placeholder="请选择文章主题"
+                  >
+                    <el-option
+                      v-for="tag in tags"
+                      :key="tag.tagId"
+                      :label="tag.tagName"
+                      :value="tag.tagId"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
                 <div class="flex-right-align">
                   <el-button
                     type="primary"
@@ -70,6 +83,7 @@ export default {
       newTopicForm: {
         title: "",
         content: "",
+        tagId: null,
       },
       newTopicRules: {
         title: [
@@ -86,9 +100,17 @@ export default {
             trigger: "blur",
           },
         ],
+        tagId: [
+          {
+            required: true,
+            message: "文章主题不能为空",
+            trigger: "change",
+          },
+        ],
       },
       titleCount: 120,
       contentCount: 20000,
+      tags: [],
     };
   },
   components: { MainHeader },
@@ -104,24 +126,39 @@ export default {
         if (valid) {
           this.onPostTopicSubmit(
             this.newTopicForm.title,
-            this.newTopicForm.content
+            this.newTopicForm.content,
+            this.newTopicForm.tagId
           );
         } else {
           return false;
         }
       });
     },
-    onPostTopicSubmit(title, content) {
+    onPostTopicSubmit(title, content, tagId) {
       const data = {
         title: title,
         content: content,
-        userCreatorId: 1,
+        tagId: tagId,
+        publishTime: new Date(),
       };
       console.log(data);
       AXIOS.post("/topics", data).then((i) => {
         console.log(i);
       });
     },
+    getTagList() {
+      AXIOS.get("/tags").then((res) => {
+        const response = res.data;
+        if (response.code === 200) {
+          this.tags = response.data;
+        } else {
+          console.log("出错");
+        }
+      });
+    },
+  },
+  created() {
+    this.getTagList();
   },
 };
 </script>
@@ -133,7 +170,7 @@ export default {
 
 .new_topic_title_box,
 .new_topic_content_box,
-.new_topic_button_box {
+.new_topic_send_box {
   display: flex;
   align-items: center;
   padding: 8px;

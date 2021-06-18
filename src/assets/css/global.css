@@ -15,6 +15,10 @@ html, body, #app {
     box-sizing: content-box;
 }
 
+a {
+    text-decoration: none;
+}
+
 #nav {
     padding: 30px;
 }

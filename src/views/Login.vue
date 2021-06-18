@@ -1,13 +1,8 @@
 <template>
   <div class="login_container">
     <div class="login_box">
-      <el-form
-        :model="loginForm"
-        ref="loginForm"
-        :rules="loginRules"
-        status-icon
-      >
-        <el-form-item prop="username">
+      <el-form :model="loginForm" ref="loginForm" :rules="loginRules">
+        <el-form-item prop="username" :error="usernameError">
           <el-input
             v-model="loginForm.username"
             prefix-icon="el-icon-user"
@@ -15,7 +10,7 @@
             type="text"
           />
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="password" :error="passwordError">
           <el-input
             v-model="loginForm.password"
             placeholder="请输入密码"
@@ -63,6 +58,8 @@ export default {
           },
         ],
       },
+      usernameError: "",
+      passwordError: "",
     };
   },
   methods: {
@@ -81,7 +78,31 @@ export default {
         username: username,
         password: password,
       }).then((response) => {
-        console.log(response);
+        let data = response.data;
+        let code = data.code;
+        switch (code) {
+          case 201: {
+            this.usernameError = data.message;
+            break;
+          }
+          case 202: {
+            this.passwordError = data.message;
+            break;
+          }
+          case 200: {
+            this.$message.success({
+              message: "登录成功",
+              type: "success",
+            });
+            this.$store.commit("login", data.data);
+            this.$router.push("/");
+            break;
+          }
+          default: {
+            this.$message.error("未知错误");
+            break;
+          }
+        }
       });
     },
   },

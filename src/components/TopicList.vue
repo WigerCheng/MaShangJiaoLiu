@@ -30,7 +30,6 @@ export default {
   },
   created() {
     this.getTopicList();
-    console.log("请求数据");
   },
 };
 </script>
