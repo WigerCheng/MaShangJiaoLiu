@@ -64,12 +64,12 @@ export default {
         tag: {},
       },
       isLoadFinish: false,
-      topicId: 20,
+      topicId: null,
     };
   },
   methods: {
-    getTopic() {
-      AXIOS.get(`/topics/${this.topicId}`).then((res) => {
+    getTopic(id) {
+      AXIOS.get(`/topics/${id}`).then((res) => {
         const response = res.data;
         if (response.code === 200) {
           this.item = response.data;
@@ -102,8 +102,10 @@ export default {
     },
   },
   created() {
-    this.getTopic();
-    this.$store.commit("setTopicId", 20);
+    let id = this.$route.params.topicId;
+    this.topicId = id;
+    this.getTopic(id);
+    this.$store.commit("setTopicId", this.id);
   },
 };
 </script>

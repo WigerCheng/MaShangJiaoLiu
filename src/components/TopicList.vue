@@ -17,8 +17,8 @@ export default {
   },
   components: { TopicItem },
   methods: {
-    getTopicList() {
-      AXIOS.get("/topics").then((res) => {
+    async getTopicList() {
+      await AXIOS.get("/topics").then((res) => {
         const response = res.data;
         if (response.code === 200) {
           this.topics = response.data;

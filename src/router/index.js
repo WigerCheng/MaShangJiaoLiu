@@ -29,7 +29,7 @@ const routes = [
     component: NewTopic
   },
   {
-    path: '/detail',
+    path: '/detail/:topicId',
     name: 'TopicDetail',
     component: TopicDetail
   }
