@@ -138,7 +138,7 @@ export default {
       const data = {
         title: title,
         content: content,
-        tagId: tagId,
+        ownTagId: tagId,
         publishTime: new Date(),
       };
       console.log(data);

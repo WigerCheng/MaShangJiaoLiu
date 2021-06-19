@@ -56,6 +56,7 @@ export default {
     logOut() {
       this.$confirm("确认登出？").then(() => {
         this.$store.commit("logout");
+        this.$router.push("/");
       });
     },
   },

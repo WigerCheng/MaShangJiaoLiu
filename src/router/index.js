@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import $ from 'jquery';
+
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
 import NewTopic from '../views/NewTopic.vue';
-import $ from 'jquery';
+import TopicDetail from '../views/TopicDetail.vue';
 
 const routes = [
   {
@@ -20,10 +22,16 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
-  }, {
+  },
+  {
     path: '/new',
     name: 'NewTopic',
     component: NewTopic
+  },
+  {
+    path: '/detail',
+    name: 'TopicDetail',
+    component: TopicDetail
   }
 ];
 
@@ -40,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const tokenStr = window.sessionStorage.getItem('token')
   // 没有获得token,跳转到、/login页面
   if (!tokenStr) {
-    return next('/login')
+    return next('/login');
   }
   next();
 });

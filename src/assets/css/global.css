@@ -37,7 +37,7 @@ a {
 }
 
 .flex-right-align {
-    align-self: flex-end;
+    align-self: center;
     justify-self: flex-end;
     margin-left: auto;
 }

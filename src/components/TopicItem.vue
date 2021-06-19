@@ -1,7 +1,7 @@
 <template>
   <div class="topic_item_container">
     <p class="topic_title">{{ item.title }}</p>
-    <span>{{ item.author }} • {{ item.publishTime }}</span>
+    <span>{{ item.user.username }} • {{ item.publishTime }}</span>
   </div>
 </template>
 
