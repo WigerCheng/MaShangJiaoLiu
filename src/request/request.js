@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 const AXIOS = axios.create({
-    baseURL: 'http://de-fr-ol-1.natfrp.cloud:57555/',
+    // baseURL: 'http://de-fr-ol-1.natfrp.cloud:57555/',
+    baseURL: 'http://127.0.0.1:3000/',
     timeout: 5000
 });
 

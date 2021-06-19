@@ -1,44 +1,47 @@
 <template>
-  <el-container>
-    <el-header>
-      <MainHeader />
-    </el-header>
-  </el-container>
-  <el-main>
-    <el-row>
-      <el-col :span="15">
-        <div class="detail_container">
-          <div class="detail_topic_">
-            <div class="detail_title_box">
-              <h1>{{ item.title }}</h1>
-              <div>
-                <span>{{ item.user.username }}</span> ·
-                <span>{{ item.publishTime }}</span>
+  <el-container direction="vertical">
+    <MainHeader />
+    <div class="main-content-container">
+      <el-row>
+        <el-col :span="15">
+          <div class="detail_container">
+            <div class="detail_topic_">
+              <div class="detail_title_box">
+                <h1>{{ item.title }}</h1>
+                <div>
+                  <span>{{ item.user.username }}</span> ·
+                  <span>{{ item.publishTime }}</span>
+                </div>
+              </div>
+              <div class="detail_content_box">
+                <p>{{ item.content }}</p>
               </div>
             </div>
-            <div class="detail_content_box">
-              <p>{{ item.content }}</p>
+            <div class="comment_list_box">
+              <CommentList />
+              <!-- <CommentList :topicId="item.topicId" /> -->
+            </div>
+            <div class="comment_input_box">
+              <div class="comment_tips">
+                <p>添加一条新回复</p>
+              </div>
+              <div class="comment_input">
+                <el-input
+                  v-model="comment"
+                  type="textarea"
+                  :rows="4"
+                ></el-input>
+              </div>
+            </div>
+            <div class="comment_send">
+              <el-button type="primary" @click="onComment">回复</el-button>
+              <p class="flex-right-align">请尽量让自己的回复能够对别人有帮助</p>
             </div>
           </div>
-          <div class="comment_list_box">
-            <CommentList :topicId="item.topicId" />
-          </div>
-          <div class="comment_input_box">
-            <div class="comment_tips">
-              <p>添加一条新回复</p>
-            </div>
-            <div class="comment_input">
-              <el-input v-model="comment" type="textarea" :rows="4"></el-input>
-            </div>
-          </div>
-          <div class="comment_send">
-            <el-button type="primary" @click="onComment">回复</el-button>
-            <p class="flex-right-align">请尽量让自己的回复能够对别人有帮助</p>
-          </div>
-        </div>
-      </el-col>
-    </el-row>
-  </el-main>
+        </el-col>
+      </el-row>
+    </div>
+  </el-container>
 </template>
 
 <script>
@@ -51,13 +54,22 @@ export default {
     return {
       comment: "",
       item: {
+        topicId: null,
+        title: "",
+        content: "",
+        publishTime: "",
+        userCreatorId: null,
+        ownTagId: null,
         user: {},
+        tag: {},
       },
+      isLoadFinish: false,
+      topicId: 20,
     };
   },
   methods: {
-    async getTopic() {
-      await AXIOS.get(`/topics/20`).then((res) => {
+    getTopic() {
+      AXIOS.get(`/topics/${this.topicId}`).then((res) => {
         const response = res.data;
         if (response.code === 200) {
           this.item = response.data;
@@ -75,9 +87,9 @@ export default {
       this.onCommentSubmit(this.comment);
     },
 
-    async onCommentSubmit(text) {
-      await AXIOS.post("/comments", {
-        ownTopicId: 20,
+    onCommentSubmit(text) {
+      AXIOS.post("/comments", {
+        ownTopicId: this.topicId,
         commentContent: text,
       }).then((res) => {
         const response = res.data;
@@ -91,6 +103,7 @@ export default {
   },
   created() {
     this.getTopic();
+    this.$store.commit("setTopicId", 20);
   },
 };
 </script>

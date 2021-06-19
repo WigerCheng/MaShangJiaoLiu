@@ -13,7 +13,7 @@
 import AXIOS from "../request/request";
 import CommentItem from "../components/CommentItem.vue";
 export default {
-  props: ["topicId"],
+  // props: ["topicId"],
   components: {
     CommentItem,
   },
@@ -34,12 +34,9 @@ export default {
       });
     },
   },
-  //监听延迟加载
-  watch: {
-    topicId(n) {
-      console.log(n);
-      this.getCommentList(n);
-    },
+  created() {
+    let topicId = this.$store.state.topicId;
+    this.getCommentList(topicId);
   },
 };
 </script>

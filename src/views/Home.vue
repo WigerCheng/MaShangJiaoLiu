@@ -1,32 +1,34 @@
 <template>
-  <el-container>
-    <el-header>
-      <MainHeader />
-    </el-header>
-    <el-row>
-      <el-col :span="18">
-        <el-main>
-          <TopicList />
-        </el-main>
-      </el-col>
-      <el-col :span="6">
-        <el-aside>
-          <router-link to="new">
+  <el-container direction="vertical">
+    <MainHeader />
+    <div class="main-content-container">
+      <el-row>
+        <el-col :span="18">
+          <div class="topic_list_container">
             <el-card>
-              <div class="new_topic_container">
-                <img src="../assets/compose.png" width="28" />
-                <el-link>创建新主题</el-link>
-              </div>
-            </el-card>
-          </router-link>
-          <div class="tag_group_container">
-            <el-card>
-              <TagGroup />
+              <TopicList />
             </el-card>
           </div>
-        </el-aside>
-      </el-col>
-    </el-row>
+        </el-col>
+        <el-col :span="6">
+          <div class="home_aside_container">
+            <router-link to="new">
+              <el-card>
+                <div class="new_topic_container">
+                  <img src="../assets/compose.png" width="28" />
+                  <el-link>创建新主题</el-link>
+                </div>
+              </el-card>
+            </router-link>
+            <div class="tag_group_container">
+              <el-card>
+                <TagGroup />
+              </el-card>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
   </el-container>
 </template>
 
@@ -49,6 +51,9 @@ export default {
 };
 </script>
 <style scoped>
+.el-container {
+  height: 100%;
+}
 .new_topic_container {
   display: flex;
   align-items: center;
@@ -59,10 +64,10 @@ export default {
 }
 
 .tag_group_container {
-  margin-top: 24px;
+  margin-top: 16px;
 }
 
-.el-main {
-  padding-top: 0;
+.home_aside_container {
+  margin-left: 16px;
 }
 </style>

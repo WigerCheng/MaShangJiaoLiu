@@ -6,19 +6,7 @@
           <div class="logo" />
         </router-link>
       </el-col>
-
-      <el-col :span="20">
-        <!-- <el-menu
-          v-if="isLogin"
-          :default-active="activeIndex"
-          mode="horizontal"
-          @select="handleSelect"
-        >
-          <el-menu-item index="1">首页</el-menu-item>
-          <el-menu-item index="2">发现</el-menu-item>
-        </el-menu> -->
-      </el-col>
-
+      <el-col :span="20"> </el-col>
       <el-col :span="3">
         <div class="login_top_container" v-if="!isLogin">
           <router-link to="/">
@@ -44,15 +32,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      activeIndex: "1",
-    };
-  },
   methods: {
-    handleSelect(key) {
-      console.log(key);
-    },
     logOut() {
       this.$confirm("确认登出？").then(() => {
         this.$store.commit("logout");
@@ -69,6 +49,16 @@ export default {
 </script>
 
 <style scoped>
+.main_header_container {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.22);
+}
+
+.main_header_container .el-row {
+  min-width: 600px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 .logo {
   width: 50px;
   height: 50px;
@@ -80,6 +70,8 @@ export default {
 
 .login_top_container {
   display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
 }
 
 .login_top_container .el-button {

@@ -1,11 +1,9 @@
 <template>
-  <el-container>
-    <el-header>
-      <MainHeader />
-    </el-header>
-    <el-row>
-      <el-col :span="16">
-        <el-main>
+  <el-container direction="vertical">
+    <MainHeader />
+    <div class="main-content-container">
+      <el-row>
+        <el-col :span="16">
           <div class="new_topic_container">
             <el-form
               :model="newTopicForm"
@@ -67,9 +65,9 @@
               </div>
             </el-form>
           </div>
-        </el-main>
-      </el-col>
-    </el-row>
+        </el-col>
+      </el-row>
+    </div>
   </el-container>
 </template>
 
@@ -150,6 +148,7 @@ export default {
       AXIOS.get("/tags").then((res) => {
         const response = res.data;
         if (response.code === 200) {
+          console.log(response.data);
           this.tags = response.data;
         } else {
           console.log("出错");
@@ -165,7 +164,9 @@ export default {
 
 <style scoped>
 .new_topic_container {
+  background-color: white;
   border: 1px solid gainsboro;
+  border-radius: 4px;
 }
 
 .new_topic_title_box,
