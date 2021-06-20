@@ -7,6 +7,7 @@ import Login from '../views/Login.vue';
 import NewTopic from '../views/NewTopic.vue';
 import TopicDetail from '../views/TopicDetail.vue';
 import Manager from '../views/manager';
+import UserManager from '../views/manager/UserManager.vue';
 
 const routes = [
   {
@@ -37,7 +38,14 @@ const routes = [
   {
     path: '/manager',
     name: 'Manager',
-    component: Manager
+    component: Manager,
+    children: [
+      {
+        path: '/user',
+        name: 'UserManager',
+        component: UserManager
+      }
+    ]
   }
 ];
 

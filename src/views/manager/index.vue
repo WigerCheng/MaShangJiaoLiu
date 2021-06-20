@@ -13,7 +13,7 @@
     <el-container>
       <!-- 边栏区域 -->
       <el-aside width="200px">
-        <div class="uesr-avatar" v-show="!isCollapse">
+        <div class="uesr-avatar">
           <img src="../../assets/avatar.jpg" alt="用户头像" />
           <span>用户</span>
         </div>
@@ -22,11 +22,10 @@
           background-color="#263238"
           text-color="#fff"
           active-text-color="#3691ff"
-          unique-opened
-          :collapse="isCollapse"
-          :collapse-transition="false"
+          router
+          :default-active="$route.path"
         >
-          <el-menu-item index="1">处理中心</el-menu-item>
+          <el-menu-item index="/user">用户管理</el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>

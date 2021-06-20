@@ -15,7 +15,7 @@
           <router-link to="register">
             <el-button type="text">注册</el-button>
           </router-link>
-          <router-link to="login">
+          <router-link to="/login">
             <el-button type="text">登录</el-button>
           </router-link>
         </div>

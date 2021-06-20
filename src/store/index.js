@@ -8,14 +8,19 @@ export default createStore({
   mutations: {
     login(state, payload) {
       let token = payload.token;
+      let userId = payload.user.userId;
 
       state.token = token;
+      state.currentUserId = userId;
 
       sessionStorage.token = token;
+      sessionStorage.userId = userId;
     },
     logout(state) {
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('userId');
       state.token = null;
+      state.currentUserId = null;
     },
     setTopicId(state, topicId) {
       state.topicId = topicId;

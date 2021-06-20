@@ -21,6 +21,7 @@ export default {
       await AXIOS.get("/topics").then((res) => {
         const response = res.data;
         if (response.code === 200) {
+          console.log(response.data);
           this.topics = response.data;
         } else {
           console.log("出错");
