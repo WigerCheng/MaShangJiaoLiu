@@ -6,6 +6,7 @@ import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
 import NewTopic from '../views/NewTopic.vue';
 import TopicDetail from '../views/TopicDetail.vue';
+import Manager from '../views/manager';
 
 const routes = [
   {
@@ -32,6 +33,11 @@ const routes = [
     path: '/detail/:topicId',
     name: 'TopicDetail',
     component: TopicDetail
+  },
+  {
+    path: '/manager',
+    name: 'Manager',
+    component: Manager
   }
 ];
 

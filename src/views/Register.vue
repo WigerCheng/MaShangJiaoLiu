@@ -6,8 +6,10 @@
         :rules="registerRules"
         ref="registerForm"
         status-icon
+        label-width="120px"
+        label-position="left"
       >
-        <el-form-item prop="username">
+        <el-form-item prop="username" label="用户名">
           <el-input
             v-model="registerForm.username"
             prefix-icon="el-icon-user"
@@ -15,7 +17,7 @@
             type="text"
           />
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="password" label="密码">
           <el-input
             v-model="registerForm.password"
             placeholder="请输入密码"
@@ -23,7 +25,7 @@
             type="password"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="againPassword">
+        <el-form-item prop="againPassword" label="再次输入密码">
           <el-input
             v-model="registerForm.againPassword"
             placeholder="请再次输入密码"
@@ -31,29 +33,27 @@
             type="password"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="gender">
-          <div class="form-item">
-            <span class="form-title">性别</span>
-            <!-- <div class="form-content"> -->
-              <el-radio-group v-model="registerForm.gender">
-                <el-radio label="男"></el-radio>
-                <el-radio label="女"></el-radio>
-              </el-radio-group>
-            <!-- </div> -->
-          </div>
+        <el-form-item label="电话">
+          <el-input v-model="registerForm.phone"> </el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onRegister('registerForm')"
-            >注册</el-button
-          >
+        <el-form-item prop="gender" label="性别">
+          <el-radio-group v-model="registerForm.gender">
+            <el-radio :label="1">男</el-radio>
+            <el-radio :label="0">女</el-radio>
+          </el-radio-group>
         </el-form-item>
+        <el-button type="primary" @click="onRegister('registerForm')"
+          >注册</el-button
+        >
       </el-form>
     </div>
   </div>
 </template>
 
 <script>
+import AXIOS from "../request/request";
 export default {
+  name: "register",
   data() {
     var validateAgainPassword = (rule, value, callback) => {
       if (value !== this.registerForm.password) {
@@ -67,6 +67,8 @@ export default {
         username: "",
         password: "",
         againPassword: "",
+        phone: "",
+        gender: 1,
       },
       registerRules: {
         username: [
@@ -98,11 +100,40 @@ export default {
     onRegister(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          this.onRegisterSubmit();
         } else {
           console.log("error submit!!");
           return false;
         }
+      });
+    },
+    async onRegisterSubmit() {
+      await AXIOS.post("/users", this.registerForm).then((response) => {
+        let data = response.data;
+        let code = data.code;
+        switch (code) {
+          case 201:
+            this.$message({
+              message: "注册失败，账户已存在",
+              type: "warning",
+            });
+            break;
+          case 200: {
+            this.$message({
+              message: "注册成功",
+              type: "success",
+            });
+            this.$router.push("/login");
+            break;
+          }
+          default:
+            this.$message({
+              message: data.message,
+              type: "warning",
+            });
+            break;
+        }
+        console.log(code);
       });
     },
   },
@@ -110,19 +141,6 @@ export default {
 </script>
 
 <style>
-.form-item {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-}
-
-.form-title {
-  display: inline;
-  justify-self: start;
-  padding: 8px;
-  padding-right: 16px;
-}
-
 .register_container {
   background: #2b4b6b;
   height: 100%;
@@ -132,7 +150,7 @@ export default {
 }
 
 .register_box {
-  width: 480px;
+  width: 600px;
   background-color: #fff;
   border-radius: 3px;
   border: 1px solid #ededed;
