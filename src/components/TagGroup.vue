@@ -1,6 +1,11 @@
 <template>
   <div class="tags_container">
-    <el-tag v-for="tag in tags" :key="tag.tagId">{{ tag.tagName }}</el-tag>
+    <el-tag
+      v-for="tag in tags"
+      :key="tag.tagId"
+      @click="$emit('tagclick', tag)"
+      >{{ tag.tagName }}</el-tag
+    >
   </div>
 </template>
 
@@ -38,5 +43,7 @@ export default {
 
 .tags_container .el-tag {
   margin: 4px;
+  cursor: pointer;
+  user-select: none;
 }
 </style>

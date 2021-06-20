@@ -26,6 +26,7 @@
           :default-active="$route.path"
         >
           <el-menu-item index="/user">用户管理</el-menu-item>
+          <el-menu-item index="/tag">主题管理</el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>

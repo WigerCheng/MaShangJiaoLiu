@@ -8,6 +8,7 @@ import NewTopic from '../views/NewTopic.vue';
 import TopicDetail from '../views/TopicDetail.vue';
 import Manager from '../views/manager';
 import UserManager from '../views/manager/UserManager.vue';
+import TagManager from '../views/manager/TagManager.vue';
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
         path: '/user',
         name: 'UserManager',
         component: UserManager
+      },
+      {
+        path: '/tag',
+        name: 'TagManager',
+        component: TagManager
       }
     ]
   }
