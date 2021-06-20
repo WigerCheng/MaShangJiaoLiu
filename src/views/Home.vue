@@ -7,6 +7,14 @@
           <div class="topic_list_container">
             <el-card>
               <TopicList :topicList="topics" v-if="isLoadTopics" />
+              <el-pagination
+                layout="prev, pager, next"
+                :total="total"
+                :page-size="size"
+                @current-change="changePage"
+                hide-on-single-page=true
+              >
+              </el-pagination>
             </el-card>
           </div>
         </el-col>
@@ -49,23 +57,39 @@ export default {
   data() {
     return {
       topics: [],
+      size: 10,
+      page: 1,
+      total: 0,
       isLoadTopics: false,
     };
   },
   methods: {
     async getTopicList() {
-      await AXIOS.get("/topics").then((res) => {
-        const response = res.data;
-        if (response.code === 200) {
-          console.log(response.data);
-          this.topics = response.data;
+      await AXIOS.get("/topics", {
+        params: {
+          size: this.size,
+          page: this.page,
+        },
+      }).then((response) => {
+        let data = response.data;
+        let code = data.code;
+        if (code === 200) {
+          this.topics = data.data.list;
+          this.total = data.data.total;
           this.isLoadTopics = true;
         } else {
           console.log("出错");
         }
       });
     },
+
+    changePage(pagenum) {
+      this.page = pagenum;
+      this.isLoadTopics = false;
+      this.getTopicList();
+    },
   },
+
   created() {
     this.getTopicList();
   },
