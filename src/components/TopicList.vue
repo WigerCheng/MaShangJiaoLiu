@@ -7,31 +7,15 @@
 
 <script>
 import TopicItem from "./TopicItem.vue";
-import AXIOS from "../request/request";
 
 export default {
+  props: ["topicList"],
   data() {
     return {
-      topics: [],
+      topics: this.topicList,
     };
   },
   components: { TopicItem },
-  methods: {
-    async getTopicList() {
-      await AXIOS.get("/topics").then((res) => {
-        const response = res.data;
-        if (response.code === 200) {
-          console.log(response.data);
-          this.topics = response.data;
-        } else {
-          console.log("出错");
-        }
-      });
-    },
-  },
-  created() {
-    this.getTopicList();
-  },
 };
 </script>
 

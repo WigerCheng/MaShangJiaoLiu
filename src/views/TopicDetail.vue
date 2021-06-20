@@ -18,8 +18,7 @@
               </div>
             </div>
             <div class="comment_list_box">
-              <CommentList />
-              <!-- <CommentList :topicId="item.topicId" /> -->
+              <CommentList :commentList="comments" v-if="isLoadComments" />
             </div>
             <div class="comment_input_box">
               <div class="comment_tips">
@@ -63,8 +62,9 @@ export default {
         user: {},
         tag: {},
       },
-      isLoadFinish: false,
       topicId: null,
+      comments: [],
+      isLoadComments: false,
     };
   },
   methods: {
@@ -73,6 +73,18 @@ export default {
         const response = res.data;
         if (response.code === 200) {
           this.item = response.data;
+        } else {
+          console.log("出错");
+        }
+      });
+    },
+
+    async getCommentList(id) {
+      await AXIOS.get(`/comments/${id}`).then((res) => {
+        const response = res.data;
+        if (response.code === 200) {
+          this.comments = response.data;
+          this.isLoadComments = true;
         } else {
           console.log("出错");
         }
@@ -105,7 +117,7 @@ export default {
     let id = this.$route.params.topicId;
     this.topicId = id;
     this.getTopic(id);
-    this.$store.commit("setTopicId", this.id);
+    this.getCommentList(id);
   },
 };
 </script>

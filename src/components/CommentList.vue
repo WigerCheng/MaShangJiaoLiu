@@ -10,33 +10,16 @@
 </template>
 
 <script>
-import AXIOS from "../request/request";
 import CommentItem from "../components/CommentItem.vue";
 export default {
-  // props: ["topicId"],
+  props: ["commentList"],
   components: {
     CommentItem,
   },
   data() {
     return {
-      comments: [],
+      comments: this.commentList,
     };
-  },
-  methods: {
-    getCommentList(id) {
-      AXIOS.get(`/comments/${id}`).then((res) => {
-        const response = res.data;
-        if (response.code === 200) {
-          this.comments = response.data;
-        } else {
-          console.log("出错");
-        }
-      });
-    },
-  },
-  created() {
-    let topicId = this.$store.state.topicId;
-    this.getCommentList(topicId);
   },
 };
 </script>

@@ -6,7 +6,7 @@
         <el-col :span="18">
           <div class="topic_list_container">
             <el-card>
-              <TopicList />
+              <TopicList :topicList="topics" v-if="isLoadTopics" />
             </el-card>
           </div>
         </el-col>
@@ -34,6 +34,7 @@
 
 <script>
 // @ is an alias to /src
+import AXIOS from "../request/request";
 import MainHeader from "@/components/MainHeader.vue";
 import TopicList from "@/components/TopicList.vue";
 import TagGroup from "@/components/TagGroup.vue";
@@ -46,7 +47,27 @@ export default {
     TagGroup,
   },
   data() {
-    return {};
+    return {
+      topics: [],
+      isLoadTopics: false,
+    };
+  },
+  methods: {
+    async getTopicList() {
+      await AXIOS.get("/topics").then((res) => {
+        const response = res.data;
+        if (response.code === 200) {
+          console.log(response.data);
+          this.topics = response.data;
+          this.isLoadTopics = true;
+        } else {
+          console.log("出错");
+        }
+      });
+    },
+  },
+  created() {
+    this.getTopicList();
   },
 };
 </script>

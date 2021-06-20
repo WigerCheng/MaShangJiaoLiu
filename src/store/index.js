@@ -2,8 +2,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: sessionStorage.getItem('token') || null,
-    currentUserId: sessionStorage.getItem('userId') || null,
-    topicId: null
+    currentUserId: sessionStorage.getItem('userId') || null
   },
   mutations: {
     login(state, payload) {
@@ -21,9 +20,6 @@ export default createStore({
       sessionStorage.removeItem('userId');
       state.token = null;
       state.currentUserId = null;
-    },
-    setTopicId(state, topicId) {
-      state.topicId = topicId;
     }
   },
   getters: {
