@@ -26,17 +26,17 @@
             size="mini"
             @click="showEditDialog(scope.row)"
           ></el-button>
-          <!-- <el-button
-            type="warning"
-            icon="el-icon-delete"
-            size="mini"
-            @click="onRemoveUserById(scope.row.userId)"
-          ></el-button> -->
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      layout="prev, pager, next"
+      :total="total"
+      :page-size="size"
+      @current-change="changePage"
+    >
+    </el-pagination>
   </el-card>
-  <!-- 修改用户信息的对话框 -->
   <el-dialog title="修改用户信息" v-model="isEditDialogVisible" width="50%">
     <el-form :model="editUserForm" label-width="80px">
       <el-form-item label="用户名">
@@ -78,17 +78,24 @@ export default {
       users: [],
       size: 10,
       page: 1,
+      total: 0,
       isEditDialogVisible: false,
       editUserForm: {},
     };
   },
   methods: {
     async getUserList() {
-      await AXIOS.get("/users").then((response) => {
+      await AXIOS.get("/users", {
+        params: {
+          size: this.size,
+          page: this.page,
+        },
+      }).then((response) => {
         let data = response.data;
         let code = data.code;
         if (code === 200) {
           this.users = data.data.list;
+          this.total = data.data.total;
         }
       });
     },
@@ -96,6 +103,11 @@ export default {
     showEditDialog(user) {
       this.isEditDialogVisible = true;
       this.editUserForm = user;
+    },
+
+    changePage(pagenum) {
+      this.page = pagenum;
+      this.getUserList();
     },
 
     async onUpdateUser() {
@@ -110,29 +122,6 @@ export default {
           });
           this.isEditDialogVisible = false;
         }
-      });
-    },
-
-    async onRemoveUserById(uid) {
-      let currentUid = this.$store.state.currentUserId;
-      if (currentUid == uid) {
-        console.log("DONT");
-        this.$message({
-          message: "你不能删除自己",
-          type: "warning",
-        });
-        return;
-      }
-      this.$confirm(`确认删除用户${uid}？`).then(async () => {
-        await AXIOS.delete(`/users/${uid}`).then((response) => {
-          let res = response.data;
-          if (res.code === 200) {
-            this.$message({
-              message: "删除用户成功",
-              type: "success",
-            });
-          }
-        });
       });
     },
   },
