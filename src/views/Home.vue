@@ -12,7 +12,7 @@
                 :total="total"
                 :page-size="size"
                 @current-change="changePage"
-                hide-on-single-page=true
+                :hide-on-single-page="true"
               >
               </el-pagination>
             </el-card>

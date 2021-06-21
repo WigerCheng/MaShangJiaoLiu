@@ -4,11 +4,12 @@ import $ from 'jquery';
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
 import Login from '../views/Login.vue';
-import NewTopic from '../views/NewTopic.vue';
+import NewTopic from '../views/new';
 import TopicDetail from '../views/TopicDetail.vue';
 import Manager from '../views/manager';
 import UserManager from '../views/manager/UserManager.vue';
 import TagManager from '../views/manager/TagManager.vue';
+import TopicManager from '../views/manager/TopicManager.vue';
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
         path: '/tag',
         name: 'TagManager',
         component: TagManager
+      },
+      {
+        path: '/topic',
+        name: 'TopicManager',
+        component: TopicManager
       }
     ]
   }
