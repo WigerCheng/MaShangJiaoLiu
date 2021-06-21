@@ -4,7 +4,12 @@
     <div class="main-content-container">
       <el-row>
         <el-col :span="16">
-          <ChangeTopic @postTopic="onPostTopicSubmit" />
+          <ChangeTopic
+            @postTopic="onPostTopicSubmit"
+            :topic="{
+              tag: {},
+            }"
+          />
         </el-col>
       </el-row>
     </div>

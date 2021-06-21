@@ -81,7 +81,6 @@ export default {
     async onUpdateorNewTagSubmit() {
       if (this.isNew) {
         await AXIOS.post("/tags", this.tagForm).then((res) => {
-          console.log(res);
           let code = res.data.code;
           if (code === 200) {
             this.$message({

@@ -66,9 +66,10 @@ export default {
   data() {
     return {
       newTopicForm: {
-        title: "",
-        content: "",
-        tagId: null,
+        topicId: this.topic.topicId,
+        title: this.topic.title,
+        content: this.topic.content,
+        tagId: this.topic.tag.tagId,
       },
       newTopicRules: {
         title: [
@@ -126,12 +127,11 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.getTagList();
   },
 
   setup(props, ctx) {
-    console.log(props);
     const postTopic = (topic) => {
       ctx.emit("postTopic", topic);
     };

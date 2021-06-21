@@ -33,21 +33,39 @@
     >
     </el-pagination>
   </el-card>
+  <el-dialog title="编辑文章" v-model="isDialogVisible" @close="clearDialog">
+    <ChangeTopic
+      :topic="changeTopic"
+      v-if="isDialogVisible"
+      @postTopic="onPostTopicSubmit"
+    />
+  </el-dialog>
 </template>
 
 <script>
 import AXIOS from "../../request/request";
+import ChangeTopic from "@/components/ChangeTopic.vue";
 export default {
+  components: { ChangeTopic },
   data() {
     return {
       topics: [],
       size: 10,
       page: 1,
       total: 0,
+      isDialogVisible: false,
+      changeTopic: null,
     };
   },
   methods: {
-    onEditTopic() {},
+    onEditTopic(topic) {
+      this.changeTopic = topic;
+      this.isDialogVisible = true;
+    },
+    clearDialog() {
+      this.changeTopic = null;
+      this.isDialogVisible = false;
+    },
     onDeleteTopic(topic) {
       this.$confirm(`是否删除${topic.title}这篇文章？`).then(() => {
         this.onDeleteTopicSubmit(topic.topicId);
@@ -56,6 +74,21 @@ export default {
     changePage(pagenum) {
       this.page = pagenum;
       this.getUserList();
+    },
+    async onPostTopicSubmit(topic) {
+      let topicId = topic.topicId;
+      delete topic.topicId;
+      await AXIOS.put(`/topics/${topicId}`, topic).then((response) => {
+        let res = response.data;
+        if (res.code === 200) {
+          this.$message({
+            message: "修改文章成功",
+            type: "success",
+          });
+          this.isDialogVisible = false;
+          this.getTopicList();
+        }
+      });
     },
     async onDeleteTopicSubmit(id) {
       await AXIOS.delete(`/topics/${id}`).then((response) => {
