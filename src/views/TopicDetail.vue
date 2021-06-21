@@ -4,7 +4,7 @@
     <div class="main-content-container">
       <el-row>
         <el-col :span="15">
-          <div class="detail_container">
+          <div class="detail_container" v-if="isLoadTopic">
             <div class="detail_topic_">
               <div class="detail_title_box">
                 <h1>{{ item.title }}</h1>
@@ -19,6 +19,13 @@
             </div>
             <div class="comment_list_box">
               <CommentList :commentList="comments" v-if="isLoadComments" />
+              <el-pagination
+                layout="prev, pager, next"
+                :total="total"
+                :page-size="size"
+                @current-change="changePage"
+              >
+              </el-pagination>
             </div>
             <div class="comment_input_box">
               <div class="comment_tips">
@@ -52,38 +59,57 @@ export default {
   data() {
     return {
       comment: "",
-      item: {
-        topicId: null,
-        title: "",
-        content: "",
-        publishTime: "",
-        userCreatorId: null,
-        ownTagId: null,
-        user: {},
-        tag: {},
-      },
-      topicId: null,
+      topicId: this.$route.params.topicId,
       comments: [],
       isLoadComments: false,
+      isLoadTopic: false,
+      size: 10,
+      page: 1,
+      total: 0,
     };
   },
   methods: {
-    getTopic(id) {
-      AXIOS.get(`/topics/${id}`).then((res) => {
+    changePage(pageNum) {
+      this.page = pageNum;
+      this.isLoadComments = false;
+      this.getCommentList();
+    },
+
+    onComment() {
+      if (this.comment === null || this.comment === "") {
+        this.$message({
+          type: "error",
+          message: "评论不能为空",
+        });
+        return;
+      }
+      this.onCommentSubmit(this.comment);
+    },
+
+    async getTopic() {
+      await AXIOS.get(`/topics/${this.topicId}`).then((res) => {
         const response = res.data;
         if (response.code === 200) {
           this.item = response.data;
+          this.isLoadTopic = true;
         } else {
           console.log("出错");
         }
       });
     },
 
-    async getCommentList(id) {
-      await AXIOS.get(`/comments/${id}`).then((res) => {
-        const response = res.data;
-        if (response.code === 200) {
-          this.comments = response.data;
+    async getCommentList() {
+      await AXIOS.get(`/commentsss/${this.topicId}`, {
+        params: {
+          size: this.size,
+          page: this.page,
+        },
+      }).then((response) => {
+        let data = response.data;
+        let code = data.code;
+        if (code === 200) {
+          this.comments = data.data.list;
+          this.total = data.data.total;
           this.isLoadComments = true;
         } else {
           console.log("出错");
@@ -91,16 +117,8 @@ export default {
       });
     },
 
-    onComment() {
-      if (this.comment === null || this.comment === "") {
-        alert("不能为空");
-        return;
-      }
-      this.onCommentSubmit(this.comment);
-    },
-
-    onCommentSubmit(text) {
-      AXIOS.post("/comments", {
+    async onCommentSubmit(text) {
+      await AXIOS.post("/comments", {
         ownTopicId: this.topicId,
         commentContent: text,
       }).then((res) => {
@@ -114,10 +132,8 @@ export default {
     },
   },
   created() {
-    let id = this.$route.params.topicId;
-    this.topicId = id;
-    this.getTopic(id);
-    this.getCommentList(id);
+    this.getTopic();
+    this.getCommentList();
   },
 };
 </script>

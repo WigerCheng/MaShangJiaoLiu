@@ -30,7 +30,7 @@
         <el-input
           v-model="newTopicForm.content"
           type="textarea"
-          :rows="15"
+          :rows="10"
           maxlength="20000"
           @input="updateContentCount"
         ></el-input>
