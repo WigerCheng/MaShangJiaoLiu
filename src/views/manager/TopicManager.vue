@@ -37,6 +37,7 @@
       :total="total"
       :page-size="size"
       @current-change="changeTopicPage"
+      :hide-on-single-page="true"
     >
     </el-pagination>
   </el-card>
@@ -85,6 +86,7 @@
       :total="commentTotal"
       :page-size="commentSize"
       @current-change="changeCommentPage"
+      :hide-on-single-page="true"
     >
     </el-pagination>
   </el-dialog>
@@ -191,7 +193,7 @@ export default {
     },
 
     async getCommentList(topicId) {
-      await AXIOS.get(`/commentsss/${topicId}`, {
+      await AXIOS.get(`/comments/${topicId}`, {
         params: {
           size: this.commentSize,
           page: this.commentPage,

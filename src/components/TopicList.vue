@@ -19,5 +19,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+ul{
+  background-color: #e2e2e2;
+}
 </style>

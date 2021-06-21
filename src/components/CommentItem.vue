@@ -4,7 +4,7 @@
       <span class="comment_owner_name">{{ item.user.username }}</span>
       <span class="comment_time">{{ item.commentTime }}</span>
     </div>
-    <p>{{ item.commentContent }}</p>
+    <p class="comment_content">{{ item.commentContent }}</p>
   </div>
 </template>
 
@@ -22,7 +22,9 @@ export default {
 <style scoped>
 .comment_container {
   padding: 8px;
-  background-color: orchid;
+  background-color: white;
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 .comment_owner_name {
@@ -34,5 +36,11 @@ export default {
   margin-top: 8px;
   font-size: 11px;
   color: #ccc;
+}
+
+.comment_content {
+  font-size: 14px;
+  line-height: 150%;
+  text-align: left;
 }
 </style>

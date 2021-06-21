@@ -24,5 +24,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+ul {
+  background-color: #ccc;
+  padding-top: 0.5px;
+  padding-bottom: 0.5px;
+}
 </style>

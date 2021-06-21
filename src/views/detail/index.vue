@@ -3,46 +3,57 @@
     <MainHeader />
     <div class="main-content-container">
       <el-row>
-        <el-col :span="15">
+        <el-col :span="24">
           <div class="detail_container" v-if="isLoadTopic">
-            <div class="detail_topic_">
-              <div class="detail_title_box">
-                <h1>{{ item.title }}</h1>
-                <div>
-                  <span>{{ item.user.username }}</span> ·
-                  <span>{{ item.publishTime }}</span>
+            <el-card>
+              <div class="detail_topic_container">
+                <div class="detail_title_box">
+                  <h1>{{ item.title }}</h1>
+                  <div style="margin-top: 10px">
+                    <span>{{ item.user.username }}</span> ·
+                    <span>{{ item.publishTime }}</span>
+                  </div>
+                </div>
+                <div class="detail_content_box" style="margin-top: 10px">
+                  <p>{{ item.content }}</p>
                 </div>
               </div>
-              <div class="detail_content_box">
-                <p>{{ item.content }}</p>
+            </el-card>
+
+            <el-card style="margin-top: 20px">
+              <div class="comment_list_box">
+                <CommentList :commentList="comments" v-if="isLoadComments" />
+                <el-pagination
+                  layout="prev, pager, next"
+                  :total="total"
+                  :page-size="size"
+                  @current-change="changePage"
+                  :hide-on-single-page="true"
+                >
+                </el-pagination>
               </div>
-            </div>
-            <div class="comment_list_box">
-              <CommentList :commentList="comments" v-if="isLoadComments" />
-              <el-pagination
-                layout="prev, pager, next"
-                :total="total"
-                :page-size="size"
-                @current-change="changePage"
-              >
-              </el-pagination>
-            </div>
-            <div class="comment_input_box">
-              <div class="comment_tips">
-                <p>添加一条新回复</p>
+            </el-card>
+
+            <el-card style="margin-top: 20px">
+              <div class="comment_input_box">
+                <div class="comment_tips">
+                  <p>添加一条新回复</p>
+                </div>
+                <div class="comment_input">
+                  <el-input
+                    v-model="comment"
+                    type="textarea"
+                    :rows="4"
+                  ></el-input>
+                </div>
               </div>
-              <div class="comment_input">
-                <el-input
-                  v-model="comment"
-                  type="textarea"
-                  :rows="4"
-                ></el-input>
+              <div class="comment_send">
+                <el-button type="primary" @click="onComment">回复</el-button>
+                <p class="flex-right-align">
+                  请尽量让自己的回复能够对别人有帮助
+                </p>
               </div>
-            </div>
-            <div class="comment_send">
-              <el-button type="primary" @click="onComment">回复</el-button>
-              <p class="flex-right-align">请尽量让自己的回复能够对别人有帮助</p>
-            </div>
+            </el-card>
           </div>
         </el-col>
       </el-row>
@@ -53,7 +64,7 @@
 <script>
 import MainHeader from "@/components/MainHeader.vue";
 import CommentList from "@/components/CommentList.vue";
-import AXIOS from "../request/request";
+import AXIOS from "../../request/request";
 export default {
   components: { MainHeader, CommentList },
   data() {
@@ -83,6 +94,7 @@ export default {
         });
         return;
       }
+      this.isLoadComments = false;
       this.onCommentSubmit(this.comment);
     },
 
@@ -99,7 +111,7 @@ export default {
     },
 
     async getCommentList() {
-      await AXIOS.get(`/commentsss/${this.topicId}`, {
+      await AXIOS.get(`/comments/${this.topicId}`, {
         params: {
           size: this.size,
           page: this.page,
@@ -124,7 +136,12 @@ export default {
       }).then((res) => {
         const response = res.data;
         if (response.code === 200) {
-          console.log(response.data);
+          this.$message({
+            type: "success",
+            message: "评论成功",
+          });
+          this.comment = "";
+          this.getCommentList();
         } else {
           console.log("出错");
         }
@@ -139,12 +156,6 @@ export default {
 </script>
 
 <style scoped>
-.detail_container {
-  background-color: greenyellow;
-  padding: 16px;
-  text-align: left;
-}
-
 .detail_title_box {
   border-bottom: 1px solid #e2e2e2;
 }
@@ -158,13 +169,7 @@ export default {
   word-wrap: break-word;
 }
 
-.comment_tips {
-  background-color: pink;
-  border: 1px solid #e2e2e2;
-  padding: 8px;
-}
-
-.comment_input {
+.comment_input_box {
   padding: 4px;
 }
 

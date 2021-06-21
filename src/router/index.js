@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import $ from 'jquery';
 
-import Home from '../views/Home.vue';
-import Register from '../views/Register.vue';
-import Login from '../views/Login.vue';
+import Home from '../views/home';
+import Register from '../views/register';
+import Login from '../views/login';
 import NewTopic from '../views/new';
-import TopicDetail from '../views/TopicDetail.vue';
+import TopicDetail from '../views/detail';
 import Manager from '../views/manager';
 import UserManager from '../views/manager/UserManager.vue';
 import TagManager from '../views/manager/TagManager.vue';

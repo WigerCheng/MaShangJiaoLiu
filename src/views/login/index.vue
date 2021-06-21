@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import AXIOS from "../request/request";
+import AXIOS from "../../request/request";
 export default {
   name: "login",
   data() {

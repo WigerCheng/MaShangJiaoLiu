@@ -6,7 +6,6 @@
         <el-col :span="18">
           <div class="topic_list_container">
             <el-card>
-              <TopicList :topicList="topics" v-if="isLoadTopics" />
               <el-pagination
                 layout="prev, pager, next"
                 :total="total"
@@ -15,6 +14,7 @@
                 :hide-on-single-page="true"
               >
               </el-pagination>
+              <TopicList :topicList="topics" v-if="isLoadTopics" />
             </el-card>
           </div>
         </el-col>
@@ -23,7 +23,7 @@
             <router-link to="new">
               <el-card>
                 <div class="new_topic_container">
-                  <img src="../assets/compose.png" width="28" />
+                  <img src="../../assets/compose.png" width="28" />
                   <el-link>创建新主题</el-link>
                 </div>
               </el-card>
@@ -42,7 +42,7 @@
 
 <script>
 // @ is an alias to /src
-import AXIOS from "../request/request";
+import AXIOS from "../../request/request";
 import MainHeader from "@/components/MainHeader.vue";
 import TopicList from "@/components/TopicList.vue";
 import TagGroup from "@/components/TagGroup.vue";
