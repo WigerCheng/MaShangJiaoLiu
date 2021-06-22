@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-// import $ from 'jquery';
 import { ElMessage } from 'element-plus';
 
 import Home from '../views/home';

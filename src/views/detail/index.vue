@@ -15,7 +15,7 @@
                   </div>
                 </div>
                 <div class="detail_content_box" style="margin-top: 10px">
-                  <p>{{ item.content }}</p>
+                  <div v-html="compiledMarkdown"></div>
                 </div>
               </div>
             </el-card>
@@ -66,6 +66,7 @@
 import MainHeader from "@/components/MainHeader.vue";
 import CommentList from "@/components/CommentList.vue";
 import AXIOS from "../../request/request";
+import marked from "marked";
 export default {
   components: { MainHeader, CommentList },
   data() {
@@ -152,6 +153,11 @@ export default {
   created() {
     this.getTopic();
     this.getCommentList();
+  },
+  computed: {
+    compiledMarkdown: function () {
+      return marked(this.item.content, { sanitize: true });
+    },
   },
 };
 </script>

@@ -27,13 +27,23 @@
         </p>
       </div>
       <el-form-item prop="content">
-        <el-input
-          v-model="newTopicForm.content"
-          type="textarea"
-          :rows="10"
-          maxlength="20000"
-          @input="updateContentCount"
-        ></el-input>
+        <div class="editor">
+          <el-row>
+            <el-col :span="12">
+              <el-input
+                class="editor"
+                v-model="newTopicForm.content"
+                type="textarea"
+                :rows="10"
+                maxlength="20000"
+                @input="updateContentCount"
+              ></el-input>
+            </el-col>
+            <el-col :span="12">
+              <div v-html="compiledMarkdown"></div>
+            </el-col>
+          </el-row>
+        </div>
       </el-form-item>
       <div class="new_topic_send_box">
         <el-form-item prop="tagId">
@@ -61,14 +71,16 @@
 
 <script>
 import AXIOS from "../request/request";
+import marked from "marked";
+import _ from "lodash";
 export default {
   props: ["topic"],
   data() {
     return {
       newTopicForm: {
         topicId: this.topic.topicId,
-        title: this.topic.title,
-        content: this.topic.content,
+        title: this.topic.title || "",
+        content: this.topic.content || "",
         tagId: this.topic.tag.tagId,
       },
       newTopicRules: {
@@ -105,6 +117,9 @@ export default {
     },
     updateContentCount(text) {
       this.contentCount = 20000 - text.length;
+      _.debounce(function (e) {
+        this.newTopicForm.content = e.target.value;
+      }, 300);
     },
     onPostTopic(formName) {
       this.$refs[formName].validate((valid) => {
@@ -129,6 +144,12 @@ export default {
 
   created() {
     this.getTagList();
+  },
+
+  computed: {
+    compiledMarkdown: function () {
+      return marked(this.newTopicForm.content);
+    },
   },
 
   setup(props, ctx) {
@@ -159,5 +180,16 @@ export default {
 
 .count_text {
   color: #9e9e9e;
+}
+
+#editor {
+  margin: 0;
+  height: 100%;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #333;
+}
+
+code {
+  color: #f66;
 }
 </style>
