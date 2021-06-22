@@ -3,7 +3,7 @@
     <MainHeader />
     <div class="main-content-container">
       <el-row>
-        <el-col :span="16">
+        <el-col :span="24">
           <ChangeTopic
             @postTopic="onPostTopicSubmit"
             :topic="{

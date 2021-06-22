@@ -60,8 +60,10 @@ export default {
 }
 
 .logo {
-  width: 50px;
-  height: 50px;
+  width: 150px;
+  height: 40px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   background: url("../assets/logo.png") no-repeat;
   background-size: 100% 100%;
   -moz-background-size: 100% 100%;

@@ -24,7 +24,7 @@
               <el-card>
                 <div class="new_topic_container">
                   <img src="../../assets/compose.png" width="28" />
-                  <el-link>创建新主题</el-link>
+                  <el-link>发布新文章</el-link>
                 </div>
               </el-card>
             </router-link>

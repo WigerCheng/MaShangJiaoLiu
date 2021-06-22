@@ -2,7 +2,7 @@
   <div class="login_container">
     <div class="login_box">
       <el-form :model="loginForm" ref="loginForm" :rules="loginRules">
-        <el-form-item prop="username" :error="usernameError">
+        <el-form-item prop="username">
           <el-input
             v-model="loginForm.username"
             prefix-icon="el-icon-user"
@@ -10,7 +10,7 @@
             type="text"
           />
         </el-form-item>
-        <el-form-item prop="password" :error="passwordError">
+        <el-form-item prop="password">
           <el-input
             v-model="loginForm.password"
             placeholder="请输入密码"
@@ -58,8 +58,6 @@ export default {
           },
         ],
       },
-      usernameError: "",
-      passwordError: "",
     };
   },
   methods: {
@@ -81,12 +79,12 @@ export default {
         let data = response.data;
         let code = data.code;
         switch (code) {
-          case 201: {
-            this.usernameError = data.message;
-            break;
-          }
+          case 201:
           case 202: {
-            this.passwordError = data.message;
+            this.$message({
+              type: "warning",
+              message: data.message,
+            });
             break;
           }
           case 200: {
@@ -95,7 +93,12 @@ export default {
               type: "success",
             });
             this.$store.commit("login", data.data);
-            this.$router.push("/");
+            let path = sessionStorage.getItem("toRouter");
+            if (path) {
+              this.$router.push(path);
+            } else {
+              this.$router.push("/");
+            }
             break;
           }
           default: {

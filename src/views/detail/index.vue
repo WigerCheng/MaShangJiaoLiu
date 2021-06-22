@@ -21,7 +21,7 @@
             </el-card>
 
             <el-card style="margin-top: 20px">
-              <div class="comment_list_box">
+              <div class="comment_list_box" v-if="comments.length !== 0">
                 <CommentList :commentList="comments" v-if="isLoadComments" />
                 <el-pagination
                   layout="prev, pager, next"
@@ -32,6 +32,7 @@
                 >
                 </el-pagination>
               </div>
+              <p v-if="comments.length === 0">还没有回复，快来回复吧！</p>
             </el-card>
 
             <el-card style="margin-top: 20px">

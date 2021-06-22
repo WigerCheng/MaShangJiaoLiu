@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import $ from 'jquery';
+// import $ from 'jquery';
+import { ElMessage } from 'element-plus';
 
 import Home from '../views/home';
 import Register from '../views/register';
@@ -30,7 +31,8 @@ const routes = [
   {
     path: '/new',
     name: 'NewTopic',
-    component: NewTopic
+    component: NewTopic,
+    meta: { needLogin: true }
   },
   {
     path: '/detail/:topicId',
@@ -41,6 +43,7 @@ const routes = [
     path: '/manager',
     name: 'Manager',
     component: Manager,
+    meta: { needLogin: true },
     children: [
       {
         path: '/user',
@@ -67,14 +70,17 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const paths = ['/login', '/register', '/'];
-  let inPaths = $.inArray(to.path, paths);
-  if (inPaths !== -1) return next();
-  // 获取token
-  const tokenStr = window.sessionStorage.getItem('token')
-  // 没有获得token,跳转到、/login页面
+  if (to.meta.needLogin !== true) return next();
+  const tokenStr = window.sessionStorage.getItem('token');
   if (!tokenStr) {
+    window.sessionStorage.setItem("toRouter", to.path);
+    ElMessage({
+      type: "error",
+      message: "你还未登录"
+    });
     return next('/login');
+  } else {
+    window.sessionStorage.removeItem("toRouter");
   }
   next();
 });

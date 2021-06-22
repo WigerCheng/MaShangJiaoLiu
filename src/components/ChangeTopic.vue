@@ -7,7 +7,7 @@
       status-icon
     >
       <div class="new_topic_title_box">
-        <h3 class="left-text">主题标题</h3>
+        <h3 class="left-text">文章标题</h3>
         <p class="flex-right-align count_text">
           {{ titleCount }}
         </p>
