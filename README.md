@@ -1,24 +1,27 @@
-# greatproject
+# 码上交流
+一个简单的社区交流平台。
 
-## Project setup
-```
-npm install
-```
+## 使用的技术
+* vue
+* vuex
+* vue-router
+* sequelize
+* koa
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## 完成的功能
 
-### Compiles and minifies for production
-```
-npm run build
-```
+**用户界面**
+* 登录
+* 注册
+* 发表文章
+* 浏览文章
+* 评论
 
-### Lints and fixes files
-```
-npm run lint
-```
+**后台管理界面**
+* 用户管理
+* 主题管理
+* 文章&评论管理
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 运行
+1. `npm install --legacy-peer-deps`
+2. `npm run go`
