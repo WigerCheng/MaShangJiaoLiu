@@ -61,3 +61,7 @@ a {
     /* padding: 16px; */
     /* background-color: red; */
 }
+
+pre, code {
+    color: #f66;
+}

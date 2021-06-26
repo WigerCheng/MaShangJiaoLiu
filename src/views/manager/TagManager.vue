@@ -88,6 +88,7 @@ export default {
               type: "success",
             });
             this.isDialogVisible = false;
+            location.reload();
           } else if (code === 201) {
             this.$message({
               message: "添加失败，Tag已存在",
@@ -99,12 +100,14 @@ export default {
         let tagId = this.tagForm.tagId;
         delete this.tagForm.tagId;
         await AXIOS.put(`/tags/${tagId}`, this.tagForm).then((res) => {
-          if (res.code === 200) {
+          let code = res.data.code;
+          if (code === 200) {
             this.$message({
               message: "修改Tag成功",
               type: "success",
             });
             this.isDialogVisible = false;
+            location.reload();
           }
         });
       }

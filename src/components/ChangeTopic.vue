@@ -40,7 +40,7 @@
               ></el-input>
             </el-col>
             <el-col :span="12">
-              <div v-html="compiledMarkdown"></div>
+              <div v-html="compiledMarkdown" style="padding: 16px"></div>
             </el-col>
           </el-row>
         </div>
@@ -61,7 +61,7 @@
             type="primary"
             icon="el-icon-s-promotion"
             @click="onPostTopic('newTopicForm')"
-            >发送主题</el-button
+            >发布</el-button
           >
         </div>
       </div>
@@ -187,9 +187,5 @@ export default {
   height: 100%;
   font-family: "Helvetica Neue", Arial, sans-serif;
   color: #333;
-}
-
-code {
-  color: #f66;
 }
 </style>

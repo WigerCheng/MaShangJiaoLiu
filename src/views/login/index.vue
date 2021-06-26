@@ -97,7 +97,11 @@ export default {
             if (path) {
               this.$router.push(path);
             } else {
-              this.$router.push("/");
+              if (data.data.user.isAdmin) {
+                this.$router.push("/manager");
+              } else {
+                this.$router.push("/");
+              }
             }
             break;
           }
@@ -114,7 +118,7 @@ export default {
 
 <style>
 .login_container {
-  background: #2b4b6b;
+  background: url("../../assets/login_bg.jpg");
   height: 100%;
   width: 100%;
   display: grid;

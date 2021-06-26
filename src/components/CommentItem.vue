@@ -2,19 +2,25 @@
   <div class="comment_container">
     <div>
       <span class="comment_owner_name">{{ item.user.username }}</span>
-      <span class="comment_time">{{ item.commentTime }}</span>
+      <span class="comment_time">{{ format(item.commentTime) }}</span>
     </div>
     <p class="comment_content">{{ item.commentContent }}</p>
   </div>
 </template>
 
 <script>
+import formatTime from "../time";
 export default {
   props: ["commentItem"],
   data() {
     return {
       item: this.commentItem,
     };
+  },
+  methods: {
+    format(time) {
+      return formatTime(time);
+    },
   },
 };
 </script>

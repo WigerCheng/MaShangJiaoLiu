@@ -9,17 +9,23 @@
     </p>
     <span class="tag">{{ item.tag.tagName }}</span> •
     <span>{{ item.user.username }}</span> •
-    <span class="time">{{ item.publishTime }}</span>
+    <span class="time">{{ format(item.publishTime) }}</span>
   </div>
 </template>
 
 <script>
+import formatTime from "../time";
 export default {
   props: ["topicItem"],
   data() {
     return {
       item: this.topicItem,
     };
+  },
+  methods: {
+    format(time) {
+      return formatTime(time);
+    },
   },
 };
 </script>

@@ -11,12 +11,10 @@
                   <h1>{{ item.title }}</h1>
                   <div style="margin-top: 10px">
                     <span>{{ item.user.username }}</span> ·
-                    <span>{{ item.publishTime }}</span>
+                    <span>{{ format(item.publishTime) }}</span>
                   </div>
                 </div>
-                <div class="detail_content_box" style="margin-top: 10px">
-                  <div v-html="compiledMarkdown"></div>
-                </div>
+                <div class="detail_content_box" v-html="compiledMarkdown"></div>
               </div>
             </el-card>
 
@@ -67,6 +65,7 @@ import MainHeader from "@/components/MainHeader.vue";
 import CommentList from "@/components/CommentList.vue";
 import AXIOS from "../../request/request";
 import marked from "marked";
+import formatTime from "../../time";
 export default {
   components: { MainHeader, CommentList },
   data() {
@@ -82,6 +81,9 @@ export default {
     };
   },
   methods: {
+    format(time) {
+      return formatTime(time);
+    },
     changePage(pageNum) {
       this.page = pageNum;
       this.isLoadComments = false;
@@ -172,8 +174,9 @@ export default {
   margin-bottom: 4px;
 }
 
-.detail_content_box p {
+.detail_content_box {
   word-wrap: break-word;
+  margin-top: 10px;
 }
 
 .comment_input_box {

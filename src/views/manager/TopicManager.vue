@@ -4,7 +4,13 @@
       <el-table-column prop="topicId" width="50" label=""></el-table-column>
       <el-table-column label="文章标题" prop="title"></el-table-column>
       <el-table-column label="作者" prop="user.username"></el-table-column>
-      <el-table-column label="发布时间" prop="publishTime"></el-table-column>
+      <el-table-column label="发布时间">
+        <template #default="scope">
+          <p>
+            {{ format(scope.row.publishTime) }}
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column
         label="文章所属主题"
         prop="tag.tagName"
@@ -64,11 +70,13 @@
         prop="user.username"
         width="100"
       ></el-table-column>
-      <el-table-column
-        label="评论时间"
-        prop="commentTime"
-        width="200"
-      ></el-table-column>
+      <el-table-column label="评论时间" width="200">
+        <template #default="scope">
+          <p>
+            {{ format(scope.row.commentTime) }}
+          </p>
+        </template>
+      </el-table-column>
       <el-table-column label="评论内容" prop="commentContent"></el-table-column>
       <el-table-column label="操作" class="icon-conllinear" width="50">
         <template #default="scope">
@@ -95,6 +103,7 @@
 <script>
 import AXIOS from "../../request/request";
 import ChangeTopic from "@/components/ChangeTopic.vue";
+import formatTime from "../../time";
 export default {
   components: { ChangeTopic },
   data() {
@@ -113,6 +122,9 @@ export default {
     };
   },
   methods: {
+    format(time) {
+      return formatTime(time);
+    },
     onEditTopic(topic) {
       this.changeTopic = topic;
       this.isTopicDialogVisible = true;

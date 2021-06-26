@@ -142,7 +142,7 @@ export default {
 
 <style>
 .register_container {
-  background: #2b4b6b;
+  background: url('../../assets/register_bg.jpg');
   height: 100%;
   width: 100%;
   display: grid;
